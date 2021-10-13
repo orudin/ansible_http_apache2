@@ -1,0 +1,32 @@
+
+---
+- name: Test all servers
+  hosts: all
+  become: yes
+
+  tasks:
+  
+  - name: Say hello
+    debug: msg = {{ item }}
+    loop:
+      - "Hello vasya"
+      - "Hello Kitty"
+ 
+  - name: Loop until
+    shell: echo -n "Z" >> file.txt && cat file.txt
+    register: results
+    delay: 2
+    retries: 10 
+    until: results.stdout.find("ZZZZZ") == false
+ 
+  - name: Output 
+    debug:
+      var: results.stdout
+
+  - name: Install packages
+    yum: name = {{ item }} state=installed
+    loop:
+      - tree
+      - python
+
+    

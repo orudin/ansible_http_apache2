@@ -1,0 +1,7 @@
+[ubuntu_linux]
+ubuntulinux  ansible_host=13.51.172.208
+
+[amazon_linux]
+amazonlinux  ansible_host=13.49.145.243
+
+

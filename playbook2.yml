@@ -1,0 +1,26 @@
+
+---
+- name: Install
+  hosts: all
+  become: yes
+
+  tasks:
+  
+  - name: Print nameserver
+    shell: uptime
+    register: results
+  
+  - block: #install for AMZL 
+      - name: Install Packages
+        yum: name={{ item }} state=present
+        loop:
+          - python3
+          - tree
+         
+      - name: ansible_dns
+        shell: echo {{ ansible_dns.nameservers[0] }} >> a.txt 
+      - name: Createfile
+        debug: var=results.stdout
+    when: ansible_os_family=="RedHat" 
+
+
